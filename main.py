@@ -3,8 +3,8 @@ import random
 import time
 
 # Konstanten für das Spielfeld
-WIDTH, HEIGHT = 300, 600
-CELL_SIZE = 30
+WIDTH, HEIGHT = 600, 800
+CELL_SIZE = 40
 GRID_WIDTH = WIDTH // CELL_SIZE
 GRID_HEIGHT = HEIGHT // CELL_SIZE
 
@@ -31,11 +31,11 @@ SHAPES = [
 ]
 
 # Farben der Tetrominos
-COLORS = [CYAN, YELLOW, ORANGE, BLUE, GREEN, RED, PURPLE]
+COLORS = [ YELLOW, ORANGE, BLUE, GREEN, RED, PURPLE]
 
 # Konstanten für Zeitverzögerung und Beschleunigung
 INITIAL_DELAY = 0
-ACCELERATION = 100000
+ACCELERATION = 100000000
 
 # Funktion zum Zeichnen des Spielfelds
 def draw_grid(screen, grid):
@@ -76,7 +76,7 @@ def check_lines(grid):
 # Funktion zum Anzeigen der Game-Over-Nachricht
 def show_game_over(screen):
     font = pygame.font.Font(None, 36)
-    text = font.render("Game Over", True, WHITE)
+    text = font.render("Game Over, Press R to restart", True, WHITE )
     text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
     screen.blit(text, text_rect)
     pygame.display.update()
