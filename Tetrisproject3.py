@@ -2,6 +2,9 @@ import pygame
 import random
 import time
 
+from pygame.examples import grid
+from pygame.examples.go_over_there import screen
+
 # Konstanten für das Spielfeld
 WIDTH, HEIGHT = 300, 600
 CELL_SIZE = 30
@@ -91,13 +94,7 @@ def restart_game(grid):
     for y in range(GRID_HEIGHT):
         for x in range(GRID_WIDTH):
             grid[y][x] = 0
-
-    current_tetromino, current_color = get_random_tetromino()
-    current_x = GRID_WIDTH // 2 - len(current_tetromino[0]) // 2
-    current_y = 0
-    game_over = False
-
-    return current_tetromino, current_x, current_y, game_over
+    return get_random_tetromino(), GRID_WIDTH // 2 - len(current_tetromino[0]) // 2, 0, False
 
 # Hauptspiel
 # Hauptspiel
@@ -208,9 +205,6 @@ if __name__ == "__main__":
     main()
 
 
-
-
-
-
-
-
+if __name__ == "__main__":
+    current_tetromino, current_color, current_x, current_y, game_over = None, None, 0, 0, False
+    main()
