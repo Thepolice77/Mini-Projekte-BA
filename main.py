@@ -34,8 +34,8 @@ SHAPES = [
 COLORS = [CYAN, YELLOW, ORANGE, BLUE, GREEN, RED, PURPLE]
 
 # Konstanten für Zeitverzögerung und Beschleunigung
-INITIAL_DELAY = 1000
-ACCELERATION = 10
+INITIAL_DELAY = 0
+ACCELERATION = 100000
 
 # Funktion zum Zeichnen des Spielfelds
 def draw_grid(screen, grid):
@@ -74,35 +74,16 @@ def check_lines(grid):
         grid.insert(0, [0] * GRID_WIDTH)
 
 # Funktion zum Anzeigen der Game-Over-Nachricht
-# Funktion zum Anzeigen der Game-Over-Nachricht
-def show_game_over(screen, grid):
-    pygame.init()
-    font = pygame.font.Font(None, 36)  # Verwenden der Standardschriftart
+def show_game_over(screen):
+    font = pygame.font.Font(None, 36)
     text = font.render("Game Over", True, WHITE)
     text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
     screen.blit(text, text_rect)
     pygame.display.update()
-    time.sleep(2)  # Eine kurze Verzögerung, damit der Spieler das Ergebnis sehen kann
-    return True
 
-
-# Funktion zum Neustarten des Spiels
-def restart_game(grid):
-    for y in range(GRID_HEIGHT):
-        for x in range(GRID_WIDTH):
-            grid[y][x] = 0
-
-    current_tetromino, current_color = get_random_tetromino()
-    current_x = GRID_WIDTH // 2 - len(current_tetromino[0]) // 2
-    current_y = 0
-    game_over = False
-
-    return current_tetromino, current_x, current_y, game_over
-
-# Hauptspiel
-# Hauptspiel
+# Die main-Schleife, die das Spiel ausführt
 def main():
-    global current_tetromino, current_color, current_x, current_y, game_over, grid, screen  # Hinzufügen der globalen Variablen
+    global current_tetromino, current_color, current_x, current_y, game_over
 
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Tetris")
@@ -161,7 +142,7 @@ def main():
 
                 # Spielende überprüfen
                 if not is_valid_move(grid, current_tetromino, current_x, current_y):
-                    game_over = show_game_over(screen, grid)  # Hier setzen Sie game_over auf True, wenn das Spiel vorbei ist
+                    game_over = True
 
             current_y += 1
             last_time = current_time
@@ -184,28 +165,23 @@ def main():
         if delay > ACCELERATION:
             delay -= ACCELERATION
 
-    show_game_over(screen, grid)
+    show_game_over(screen)
     pygame.display.update()
 
-    while True:
+    restart = False
+    while not restart:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
-                    # Starte das Spiel neu
-                    current_tetromino, current_x, current_y, game_over = restart_game(grid)
-                    delay = INITIAL_DELAY
-                    last_time = 0
-                    screen.fill(BLACK)
-                    draw_grid(screen, grid)
-                    pygame.display.update()
-                    break
+                    restart = True
+
+    if restart:
+        main()
 
 if __name__ == "__main__":
-    current_tetromino, current_color, current_x, current_y, game_over, grid, screen = None, None, 0, 0, False, None, None
+    pygame.init()
     main()
-
-
 
