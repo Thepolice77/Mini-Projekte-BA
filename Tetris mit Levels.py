@@ -141,7 +141,7 @@ def main():
                 current_y += 1
 
         if keys[pygame.K_UP]:
-            new_tetromino = [[current_tetromino[x][y] for x in range(len(current_tetromino))] for y in range(len(current_tetromino[0]))]
+            new_tetromino = [[current_tetromino[y][x] for y in range(len(current_tetromino))] for x in range(len(current_tetromino[0])-1,-1,-1)]
             if current_x + len(new_tetromino[0]) <= GRID_WIDTH and is_valid_move(grid, new_tetromino, current_x, current_y):
                 current_tetromino = new_tetromino
 
