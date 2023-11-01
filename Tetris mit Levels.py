@@ -38,7 +38,7 @@ INITIAL_DELAY = 1000
 ACCELERATION = 10
 
 # Anzahl der zu löschenden Linien pro Level
-LINES_PER_LEVEL = 3
+LINES_PER_LEVEL = 10
 
 # Funktion zum Zeichnen des Spielfelds
 def draw_grid(screen, grid):
@@ -78,8 +78,8 @@ def check_lines(grid):
 
 # Funktion zum Anzeigen der Game-Over-Nachricht
 def show_game_over(screen):
-    font = pygame.font.Font(None, 36)
-    text = font.render("Game Over", True, WHITE)
+    font = pygame.font.Font(None, 20)
+    text = font.render("Game Over,press r to restart the game", True, WHITE)
     text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
     screen.blit(text, text_rect)
     pygame.display.update()
@@ -102,7 +102,6 @@ def draw_level(screen, level):
     screen.blit(text, text_rect)
 # Die main-Schleife, die das Spiel ausführt
 def main():
-    global current_tetromino, current_color, current_x, current_y, game_over
 
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Tetris")
