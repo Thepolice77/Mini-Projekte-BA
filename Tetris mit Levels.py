@@ -3,8 +3,8 @@ import random
 import time
 
 # Konstanten für das Spielfeld
-WIDTH, HEIGHT = 300, 600
-CELL_SIZE = 30
+WIDTH, HEIGHT = 500, 1000
+CELL_SIZE = 50
 GRID_WIDTH = WIDTH // CELL_SIZE
 GRID_HEIGHT = HEIGHT // CELL_SIZE
 
@@ -78,12 +78,11 @@ def check_lines(grid):
 
 # Funktion zum Anzeigen der Game-Over-Nachricht
 def show_game_over(screen):
-    font = pygame.font.Font(None, 20)
+    font = pygame.font.Font(None, 30)
     text = font.render("Game Over,press r to restart the game", True, WHITE)
     text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
     screen.blit(text, text_rect)
-    pygame.display.update()
-    time.sleep(2)  # Eine kurze Verzögerung, damit der Spieler das Ergebnis sehen kann
+    pygame.display.update()  
     return True
 
 # Funktion zum Neustarten des Spiels
@@ -93,6 +92,22 @@ def restart_game():
         for x in range(GRID_WIDTH):
             grid[y][x] = 0
     return get_random_tetromino(), GRID_WIDTH // 2 - len(current_tetromino[0]) // 2, 0, False
+
+def  show_next_tetromino(screen):
+    next_tetromino,next_color=get_random_tetromino()
+    font=pygame.font.Font(None,36)
+    text = font.render("Next Tetromino:", True, WHITE)
+    screen.blit(text, (WIDTH + 50, 50))
+
+    for y in range(len(next_tetromino)):
+        for x in range(len(next_tetromino[0])):
+            if next_tetromino[y][x]:
+                pygame.draw.rect(screen, next_color, ((WIDTH + 50) + x * CELL_SIZE, (100 + y * CELL_SIZE), CELL_SIZE, CELL_SIZE), 0)
+            pygame.draw.rect(screen, BLACK, ((WIDTH + 50) + x * CELL_SIZE, (100 + y * CELL_SIZE), CELL_SIZE, CELL_SIZE), 1)
+    pygame.display.update()
+
+
+
 #funktion um levels anzuzeigen
 def draw_level(screen, level):
     font = pygame.font.Font(None, 36)
@@ -175,7 +190,8 @@ def main():
 
         screen.fill(BLACK)
         draw_grid(screen, grid)
-        draw_level(screen,level) # Zeichnen des Level-Felds
+        draw_level(screen,level)
+        show_next_tetromino(screen)# Zeichnen des Level-Felds
 
         for y in range(len(current_tetromino)):
             for x in range(len(current_tetromino[0])):
